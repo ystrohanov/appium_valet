@@ -56,4 +56,8 @@ click("New Feature").after_wait(:a_sec).on { |scenario|
       scenario.do_not_repeat
     end
 }
+
+# enter text to textfield with specified accessibility_id
+enter("anonymous").into textfield: "username_textfield"
+enter("qwerty").into textfield: "password_textfield"
 ```
