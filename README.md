@@ -61,3 +61,15 @@ click("New Feature").after_wait(:a_sec).on { |scenario|
 enter("anonymous").into textfield: "username_textfield"
 enter("qwerty").into textfield: "password_textfield"
 ```
+
+## Installation 
+
+in Gemfile:
+```ruby
+gem 'appium_valet', git: 'https://github.com/ystrohanov/appium_valet'
+```
+
+in env.rb:
+```ruby
+require 'appium_valet'
+```
