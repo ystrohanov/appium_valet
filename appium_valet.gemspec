@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
     s.name        = %q{appium_valet}
-    s.version     = "0.1.0"
+    s.version     = "0.1.1"
     s.licenses    = ['MIT']
     s.date        = %q{2019-07-30}
     s.authors     = ["Yevhen Strohanov"]
