@@ -35,9 +35,20 @@ module AppiumValet
     def target_element
       {
         button: lambda { |text| driver.button_exact(text) },
-        button_contains: lambda { |text| driver.button(text) }
+        button_contains: lambda { |text| driver.button(text) },
+        text: lambda { |text| driver.text_exact(text) },
+        text_contains: lambda { |text| driver.text(text) },
         # name: lambda { |text| driver.button_exact(text) }
       }[@selector]&.call(@selector_text) || driver.find_element({@selector => @selector_text})
+    end
+    alias :element :target_element
+
+    def repeat!
+      return true if repeat
+      raise """
+        Failed: was unable to find element of selector: `#{@selector}`, value: `#{@selector_text}`.
+        Number of tries exceeded limit.
+        """
     end
 
     def repeat
@@ -56,7 +67,8 @@ module AppiumValet
     end
 
     def default_selector
-      :name
+      return :name if driver.device_is_ios?
+      return :text if driver.device_is_android?
     end
   end
 end

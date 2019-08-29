@@ -18,7 +18,11 @@ check({{<text> | {button | button_contains | name | <other_selector>}: <text> | 
     # do any manipulation that might make scenario pass next time, e.g. respond to popup
     # ...
 
-    scenario.repeat
+    [{scenario.repeat | scenario.repeat! | scenario.do_not_repeat}]
+
+    # `repeat!` (bang method) would fail a test with appropriate message
+    # `repeat` after number of tries skip a test and go to next statement
+    # `do_not_repeat` skip a test and go to next statement
 }
 ```
 
@@ -27,7 +31,7 @@ check({{<text> | {button | button_contains | name | <other_selector>}: <text> | 
 # check text is on the screen and visible
 check("Username").is_displayed
 
-# check text is on button and visible 
+# check text is on button and visible
 check(button: "Sign In").is_displayed
 
 # check element with certain accessibility_id is displayed
@@ -62,7 +66,7 @@ enter("anonymous").into textfield: "username_textfield"
 enter("qwerty").into textfield: "password_textfield"
 ```
 
-## Installation 
+## Installation
 
 in Gemfile:
 ```ruby
