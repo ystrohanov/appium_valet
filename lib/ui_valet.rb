@@ -32,12 +32,24 @@ module AppiumValet
       return self
     end
 
+    def exactly(number_of_elements)
+      @expected_number_of_elements = number_of_elements
+      return self
+    end
+
+    def number_of_elements
+      @expected_number_of_elements
+    end
+
     def target_element
+      @selector = :texts unless number_of_elements.nil?
       {
         button: lambda { |text| driver.button_exact(text) },
         button_contains: lambda { |text| driver.button(text) },
         text: lambda { |text| driver.text_exact(text) },
         text_contains: lambda { |text| driver.text(text) },
+        texts: lambda { |text| driver.texts_exact(text) },
+        texts_contains: lambda { |text| driver.texts(text) },
         # name: lambda { |text| driver.button_exact(text) }
       }[@selector]&.call(@selector_text) || driver.find_element({@selector => @selector_text})
     end
@@ -58,12 +70,21 @@ module AppiumValet
     end
 
     def do_not_repeat
-      @number_of_repetitions = 3
+      @number_of_repetitions = max_number_of_tries
       repeat?
     end
 
     def repeat?
-      @number_of_repetitions < 3
+      @number_of_repetitions < max_number_of_tries
+    end
+
+    def limit_tries(max)
+      @max_number_of_tries = max || 3
+      return self
+    end
+
+    def max_number_of_tries
+      @max_number_of_tries ||= 3
     end
 
     def default_selector

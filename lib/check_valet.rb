@@ -3,12 +3,20 @@ require_relative 'ui_valet'
 module AppiumValet
   class CheckValet < UIValet
     def is_displayed?
-      wait(@after_wait) { driver.exists { target_element } }
+      result = wait(@after_wait) { driver.exists { target_element } }
+
+      return false if missed_find_exact_number_of_elements?
+      result
     end
 
     def is_displayed(&block)
       begin
         wait_true(@after_wait) { driver.exists { target_element } }
+        if missed_find_exact_number_of_elements?
+          raise """
+            Failed: was unable to find exactly #{number_of_elements} of: `#{@selector_text}`.
+          """
+        end
       rescue StandardError => e
         raise(e) if block.nil?
         is_displayed(&block) if block.call(self)
@@ -37,6 +45,12 @@ module AppiumValet
         wait_true(timeout: @before_wait, interval: 0.5) { false } if @before_wait > 0
       rescue
       end
+    end
+
+    private
+
+    def missed_find_exact_number_of_elements?
+      number_of_elements && (target_element.count != number_of_elements)
     end
   end
 end
