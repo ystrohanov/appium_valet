@@ -46,11 +46,12 @@ module AppiumValet
       {
         button: lambda { |text| driver.button_exact(text) },
         button_contains: lambda { |text| driver.button(text) },
+        buttons: lambda { |text| driver.buttons_exact(text) },
+        buttons_contain: lambda { |text| driver.buttons(text) },
         text: lambda { |text| driver.text_exact(text) },
         text_contains: lambda { |text| driver.text(text) },
         texts: lambda { |text| driver.texts_exact(text) },
-        texts_contains: lambda { |text| driver.texts(text) },
-        # name: lambda { |text| driver.button_exact(text) }
+        texts_contain: lambda { |text| driver.texts(text) },
       }[@selector]&.call(@selector_text) || driver.find_element({@selector => @selector_text})
     end
     alias :element :target_element

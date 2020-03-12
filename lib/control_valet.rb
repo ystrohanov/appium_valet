@@ -17,7 +17,7 @@ module AppiumValet
     end
 
     def default_selector
-      :button
+      :name
     end
   end
 end
